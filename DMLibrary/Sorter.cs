@@ -58,5 +58,11 @@ namespace DMLibrary
             }
             return result;
         }
+
+        public Dictionary<string, List<FileItem>> SortByFormat()
+        {
+            var result = new Dictionary<string, List<FileItem>>();
+            return result;
+        }
     }
 }

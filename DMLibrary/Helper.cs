@@ -12,6 +12,12 @@ namespace DMLibrary
         /// Разрешенный диапозон отклонения в размерах файла
         /// </summary>
         public const int Range = 15;
+
+        /// <summary>
+        /// Стандартный размер площади стандартного формата
+        /// </summary>
+        public const double StandartArea = 62370;
+
         /// <summary>
         /// Общий список всех форматов с наименованием и их размерами
         /// </summary>

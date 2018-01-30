@@ -35,9 +35,19 @@ namespace DMLibrary
         public string FileExtantion { get; private set; }
 
         /// <summary>
-        /// Размеры изобранения [ наименование формата, ширина, высота, площадь ]
+        /// Получение общего количества стандарных форматов а4 типа
         /// </summary>
-        public Dictionary<string, int[]> Size { get; private set; } // size [name, size]
+        public int IncludeStandartFormat { get; private set; }
+
+        /// <summary>
+        /// Размеры изобранения [ ширина, высота, площадь ]
+        /// </summary>
+        public int[] Size { get; private set; }
+
+        /// <summary>
+        /// Наименование формата, к которому относится файл
+        /// </summary>
+        public string Format { get; private set; }
 
         /// <summary>
         /// Наименование папки, в которой находится файл
@@ -57,12 +67,13 @@ namespace DMLibrary
             FileExtantion = Path.GetExtension(FullPath);
             Folder = Path.GetDirectoryName(FullPath);
             Size = GetImageSize();
+            IncludeStandartFormat = GetNumberIncludesStandartFormats();
         }
 
         // Методы
          
         // Получение словаря с размерами файла (ширина, высота, площадь)
-        private Dictionary<string, int[]> GetImageSize()
+        private int[] GetImageSize()
         {
             // Получение информации из изображения
             Bitmap image = new Bitmap(FullPath);
@@ -98,16 +109,23 @@ namespace DMLibrary
                     // Проверка на дублирующий размер площади у форматов
                     if (widthInRange && heightInRange)
                     {
-                        return new Dictionary<string, int[]>(){ { format.Key, new [] {format.Value[0], format.Value[1], format.Value[2]} } };
+                        Format = format.Key;
+                        return new[] { format.Value[0], format.Value[1], format.Value[2] };
                     }
                 }
             }
 
             width = Math.Floor(width);
             height = Math.Floor(height);
-            string name = $"{width}x{height}_{(orientation ? "vertical" : "horizontal")}";
+            Format = $"{width}x{height}_{(orientation ? "vertical" : "horizontal")}";
 
-            return new Dictionary<string, int[]>(){ { name , new []{ (int)(width), (int)height, (int)(width * height) } } };
+            return new[] { (int)(width), (int)height, (int)(width * height) };
+        }
+
+        private int GetNumberIncludesStandartFormats()
+        {
+            double result = Size[2] / Helper.StandartArea;
+            return (int)((result % 1 > 0.1) ? Math.Ceiling(result) : Math.Floor(result));
         }
 
         public void DEBUG_PrintInformation()
@@ -116,13 +134,10 @@ namespace DMLibrary
             Console.WriteLine($"Full Path: {FullPath}");
             Console.WriteLine($"File Name: {FileNameWithExtantion}");
             Console.WriteLine($"Size info:");
-            foreach (var intse in Size)
-            {
-                Console.WriteLine($"\tformat name: {intse.Key}");
-                Console.WriteLine($"\twidth:  {intse.Value[0]}");
-                Console.WriteLine($"\theight: {intse.Value[1]}");
-                Console.WriteLine($"\tarea:   {intse.Value[2]}");
-            }
+            Console.WriteLine($"\tformat name: {Format}");
+            Console.WriteLine($"\twidth:  {Size[0]}");
+            Console.WriteLine($"\theight: {Size[1]}");
+            Console.WriteLine($"\tarea:   {Size[2]}");
         }
     }
 }
