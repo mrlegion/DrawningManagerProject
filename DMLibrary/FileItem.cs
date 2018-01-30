@@ -117,7 +117,7 @@ namespace DMLibrary
 
             width = Math.Floor(width);
             height = Math.Floor(height);
-            Format = $"{width}x{height}_{(orientation ? "vertical" : "horizontal")}";
+            Format = $"{width}x{height}";
 
             return new[] { (int)(width), (int)height, (int)(width * height) };
         }
