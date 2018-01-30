@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DMLibrary
 {
@@ -77,45 +74,5 @@ namespace DMLibrary
 
             return result;
         }
-
-        /* TODO: Удалить данный код позже за не надобностью и лишним повторением
-        public Dictionary<string, List<FileItem>> SotrByFolder()
-        {
-            var result = new Dictionary<string, List<FileItem>>();
-            foreach (FileItem item in _items)
-            {
-                var folder = item.Folder;
-                if (result.ContainsKey(folder))
-                {
-                    result[folder].Add(item);
-                }
-                else
-                {
-                    result.Add(folder, new List<FileItem>() { item });
-                }
-            }
-            return result;
-        }
-
-        public Dictionary<string, List<FileItem>> SortByFormat()
-        {
-            var result = new Dictionary<string, List<FileItem>>();
-
-            foreach (FileItem item in _items)
-            {
-                var folder = item.IncludeStandartFormat.ToString();
-                if (result.ContainsKey(folder))
-                {
-                    result[folder].Add(item);
-                }
-                else
-                {
-                    result.Add(folder, new List<FileItem>() { item });
-                }
-            }
-
-            return result;
-        }
-        */
     }
 }
