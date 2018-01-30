@@ -12,25 +12,28 @@ namespace DMConsole
     {
         static void Main(string[] args)
         {
-            string path = @"D:\!scan";
+            string path = @"S:\temp";
 
-            var files = Directory.GetFiles(path, "*.TIF", SearchOption.AllDirectories);
+            Creator creator = null;
 
-            var result = new List<FileItem>();
+            Searcher searcher = new Searcher(path);
 
-            files.AsParallel().ForAll(s => result.Add(new FileItem(s)));
+            searcher.SearchFiles();
 
-            //foreach (var file in files)
-            //{
-            //    result.Add(new FileItem(file));
-            //}
-
-            foreach (FileItem item in result)
+            if (searcher.IsSearchComplite)
             {
-                item.DEBUG_PrintInformation();
-                Console.WriteLine(new string('-', 40));
+                creator = new Creator(searcher.Files);
+                creator.Calculated();
             }
 
+            if (creator != null && creator.IsCreateCollection)
+            {
+                foreach (FileItem item in creator.Items)
+                {
+                    item.DEBUG_PrintInformation();
+                }
+            }
+            
             // Delay
             Console.ReadKey();
         }
