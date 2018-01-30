@@ -62,6 +62,20 @@ namespace DMLibrary
         public Dictionary<string, List<FileItem>> SortByFormat()
         {
             var result = new Dictionary<string, List<FileItem>>();
+
+            foreach (FileItem item in _items)
+            {
+                var folder = item.IncludeStandartFormat.ToString();
+                if (result.ContainsKey(folder))
+                {
+                    result[folder].Add(item);
+                }
+                else
+                {
+                    result.Add(folder, new List<FileItem>() { item });
+                }
+            }
+
             return result;
         }
     }
