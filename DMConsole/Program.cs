@@ -12,7 +12,7 @@ namespace DMConsole
     {
         static void Main(string[] args)
         {
-            string path = @"S:\temp";
+            string path = @"S:\";
 
             Creator creator = null;
 
@@ -28,12 +28,23 @@ namespace DMConsole
 
             if (creator != null && creator.IsCreateCollection)
             {
-                foreach (FileItem item in creator.Items)
+                var sorter = new Sorter(creator.Items);
+                var folder = sorter.SotrByFolder();
+
+                foreach (var f in folder)
                 {
-                    item.DEBUG_PrintInformation();
+                    Console.WriteLine($"Folder Name: {f.Key}");
+                    Console.WriteLine($"Include file: {f.Value.Count}");
+                    Console.WriteLine("List includes files:");
+                    foreach (FileItem item in f.Value)
+                    {
+                        Console.WriteLine("\t" + item.FullPath);
+                    }
                 }
             }
-            
+
+
+
             // Delay
             Console.ReadKey();
         }
